@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luiz Henrique | Portfólio</title>
+    
+    <!-- Tailwind CSS (via CDN para funcionar direto) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Configuração de cores e fontes do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: '#00ff9d',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Fonte Inter do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .scroll-smooth { scroll-behavior: smooth; }
+        
+        /* Animações personalizadas */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-gray-300 selection:bg-neon selection:text-slate-900 overflow-x-hidden">
+
+    <!-- NAV -->
+    <nav class="fixed w-full z-50 bg-slate-950/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 cursor-pointer" onclick="scrollToSection('home')">
+                    <h1 class="text-2xl font-bold text-white tracking-tighter">
+                        Luiz<span class="text-neon">.dev</span>
+                    </h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <button onclick="scrollToSection('home')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Início</button>
+                        <button onclick="scrollToSection('sobre')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Sobre</button>
+                        <button onclick="scrollToSection('projetos')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Projetos</button>
+                        <button onclick="scrollToSection('contato')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Contato</button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMenu()" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-white/10">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="scrollToSection('home')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Início</button>
+                <button onclick="scrollToSection('sobre')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Sobre</button>
+                <button onclick="scrollToSection('projetos')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Projetos</button>
+                <button onclick="scrollToSection('contato')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Contato</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="pt-20 min-h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Background Effects -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-neon/10 rounded-full blur-[100px] -z-10"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-12 w-full">
+            
+            <div class="flex-1 text-center md:text-left space-y-6">
+                <div class="inline-block px-3 py-1 rounded-full border border-neon/30 bg-neon/5 text-neon text-sm font-semibold mb-4">
+                    💻 Ciência da Computação - 2º Período
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">
+                    Olá, eu sou <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon to-emerald-600">
+                        Luiz Henrique
+                    </span>
+                </h1>
+                <p class="text-lg text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                    Atualmente no 2º período, sou apaixonado por transformar lógica em soluções reais. Explorando o universo do Backend e Inteligência Artificial.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                    <button onclick="scrollToSection('projetos')" class="px-8 py-3 bg-neon text-slate-900 font-bold rounded hover:bg-[#00cc7d] transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,255,157,0.3)]">
+                        Ver Projetos
+                    </button>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex justify-center md:justify-start gap-6 pt-6">
+                    <!-- EDITE SEUS LINKS AQUI -->
+                    <a href="https://github.com/luizhrx" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="github"></i></a>
+                    <a href="https://www.linkedin.com/in/luiz-henrique-02bbb8362/" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="linkedin"></i></a>
+                    <a href="https://www.instagram.com/_luizhrx/" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="flex-1 flex justify-center items-center relative">
+                <div class="relative w-64 h-64 md:w-80 md:h-80">
+                    <!-- Circle Animation -->
+                    <div class="absolute inset-0 rounded-full border-2 border-neon border-dashed animate-spin-slow"></div>
+                    
+                    <div class="absolute inset-2 rounded-full overflow-hidden bg-slate-800 border-4 border-slate-700 shadow-2xl flex items-center justify-center">
+                         <!-- FOTO: Substitua a tag abaixo pela sua imagem <img> -->
+                         <!-- Exemplo: <img src="sua-foto.jpg" class="w-full h-full object-cover" /> -->
+                         <div class="flex flex-col items-center justify-center text-gray-500">
+                            <span class="text-4xl mb-2">👋</span>
+                            <img src="luiz.jpg" alt="luiz" class="-mt-20">
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500">
+            <i data-lucide="chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- SOBRE SECTION -->
+    <section id="sobre" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Sobre <span class="text-neon">Mim</span></h2>
+                <div class="w-20 h-1 bg-neon mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-lg">
+                    <p>Sou estudante de <strong class="text-white">Ciência da Computação</strong>, apaixonado por entender como as coisas funcionam "por baixo do capô".</p>
+                    <p>Minha jornada começou com a curiosidade sobre jogos e hoje foco em desenvolver soluções completas. Gosto de resolver problemas lógicos e estou sempre buscando aprender novas tecnologias.</p>
+                    <p>Atualmente, meu foco é aprofundar conhecimentos em <span class="text-neon">Java e Python</span>, além de explorar frameworks modernos para web.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Card Backend -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
+                        <i data-lucide="terminal" class="text-neon mb-4 w-8 h-8"></i>
+                        <h3 class="font-bold text-white text-lg mb-2">Backend</h3>
+                        <p class="text-sm text-gray-400">Desenvolvimento de lógica robusta e APIs.</p>
+                    </div>
+                    <!-- Card Web -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
+                        <i data-lucide="globe" class="text-neon mb-4 w-8 h-8"></i>
+                        <h3 class="font-bold text-white text-lg mb-2">Web</h3>
+                        <p class="text-sm text-gray-400">Interfaces modernas e responsivas.</p>
+                    </div>
+                    <!-- Card IA -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
+                        <i data-lucide="cpu" class="text-neon mb-4 w-8 h-8"></i>
+                        <h3 class="font-bold text-white text-lg mb-2">I.A.</h3>
+                        <p class="text-sm text-gray-400">Interesse em aprendizado de máquina.</p>
+                    </div>
+                    <!-- Card Dados -->
+                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
+                        <i data-lucide="database" class="text-neon mb-4 w-8 h-8"></i>
+                        <h3 class="font-bold text-white text-lg mb-2">Dados</h3>
+                        <p class="text-sm text-gray-400">Modelagem e persistência de dados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS -->
+            <div class="mt-20">
+                <h3 class="text-2xl font-bold text-white mb-8 text-center md:text-left">Habilidades Técnicas</h3>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <!-- Skill Item -->
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
+                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
+                        <span class="text-white font-medium">Java</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
+                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
+                        <span class="text-white font-medium">Python</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
+                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
+                        <span class="text-white font-medium">HTML5 / CSS3</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
+                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
+                        <span class="text-white font-medium">Git / GitHub</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
+                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
+                        <span class="text-white font-medium">Lógica de Prog.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJETOS SECTION -->
+    <section id="projetos" class="py-20 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Meus <span class="text-neon">Projetos</span></h2>
+                <p class="text-gray-400">Um pouco do que tenho desenvolvido na faculdade e estudos pessoais.</p>
+            </div>
+
+            <!-- Grid de Projetos -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- PROJETO 1: Conta Bancária -->
+                <div class="bg-slate-900 rounded-xl overflow-hidden border border-white/10 hover:border-neon/50 transition-all group flex flex-col h-full">
+                    <div class="h-48 bg-slate-800 flex items-center justify-center relative overflow-hidden group-hover:bg-slate-800/80 transition-all">
+                        <i data-lucide="code" class="text-gray-600 w-12 h-12 group-hover:text-neon transition-colors duration-500"></i>
+                        <div class="absolute inset-0 bg-neon/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                        <img src="conta.jpg" alt="conta">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon transition-colors">Conta Bancária em Python</h3>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">
+                            Projeto de console simples que simula operações bancárias básicas, demonstrando conceitos fundamentais de Programação Orientada a Objetos (POO) em Python.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">Python</span>
+                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">POO</span>
+                        </div>
+                        <a href="https://github.com/luizhrx/projeto-Conta_Bancaria" class="w-full py-2 flex items-center justify-center gap-2 bg-slate-800 text-white rounded hover:bg-neon hover:text-slate-900 font-medium transition-all">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                            Ver no GitHub
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTATO SECTION -->
+    <section id="contato" class="py-20 bg-slate-900 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-950 p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-white mb-2">Vamos <span class="text-neon">Conversar?</span></h2>
+                    <p class="text-gray-400">Estou disponível para novos projetos e oportunidades de estágio.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10">
+                    <!-- Contact Info -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-semibold text-white">Canais de Contato</h3>
+                        
+                        <div class="flex items-center gap-4 text-gray-300">
+                            <div class="w-10 h-10 rounded bg-slate-800 flex items-center justify-center text-neon">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <span>luizlopeszx1@gmail.com</span>
+                        </div>
+
+                        <div class="pt-6">
+                            <p class="text-sm text-gray-500 mb-4 uppercase tracking-wider">Redes Sociais</p>
+                            <div class="flex gap-4">
+                                <a href="https://www.linkedin.com/in/luiz-henrique-02bbb8362/" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all"><i data-lucide="linkedin"></i></a>
+                                <a href="https://github.com/luizhrx" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all"><i data-lucide="github"></i></a>
+                                <a href="https://www.instagram.com/_luizhrx/" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition-all"><i data-lucide="instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form -->
+                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Este é apenas um formulário de demonstração.');">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Nome</label>
+                            <input type="text" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-neon transition-colors" placeholder="Seu nome" />
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Email</label>
+                            <input type="email" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-neon transition-colors" placeholder="seu@email.com" />
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Mensagem</label>
+                            <textarea class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white h-32 resize-none focus:outline-none focus:border-neon transition-colors" placeholder="Como posso ajudar?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-neon text-slate-900 font-bold py-3 rounded hover:bg-[#00cc7d] transition-colors">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 bg-slate-950 border-t border-white/5 text-center text-gray-500 text-sm">
+        <p>© 2025 Luiz Henrique. Desenvolvido com HTML & Tailwind.</p>
+    </footer>
+
+    <!-- JavaScript Simples para Funcionalidades -->
+    <script>
+        // Inicializa ícones
+        lucide.createIcons();
+
+        // Menu Mobile Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Scroll Suave e Fechar Menu ao Clicar
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                // Fecha o menu mobile se estiver aberto
+                document.getElementById('mobile-menu').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
