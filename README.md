@@ -1,3 +1,8 @@
+
+# 🎯 Portfólio Profissional
+
+Este projeto consiste no meu **portfólio profissional**, desenvolvido com o objetivo de apresentar meus conhecimentos, habilidades técnicas e projetos na área de tecnologia de forma clara, moderna e responsiva.
+
 ## 🛠️ Tecnologias Utilizadas
 
 O foco foi criar uma aplicação leve, rápida e sem necessidade de build complexo.
