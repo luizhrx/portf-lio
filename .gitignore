@@ -1,2 +1,11 @@
+# Ignorar todas as imagens (se você não quiser nenhuma no repositório)
+*.png
 *.jpg
 *.jpeg
+
+# OU ignorar uma pasta específica de rascunhos
+rascunhos/
+
+# Ignorar arquivos de sistema (muito importante)
+.DS_Store
+Thumbs.db
