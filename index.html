@@ -1,382 +1,1230 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luiz Henrique | Portfólio</title>
-    
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
 
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                        /* Cor principal neon: verde ciberpunk */
                         neon: '#00ff9d',
+                        /* Cor secundária: azul elétrico */
+                        electric: '#3b82f6',
                     },
                     fontFamily: {
+                        /* Fonte display para títulos grandes */
+                        display: ['Syne', 'sans-serif'],
+                        /* Fonte mono para badges de código */
+                        mono: ['JetBrains Mono', 'monospace'],
+                        /* Fonte padrão do corpo */
                         sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
+        /* =============================================
+           RESET E BASE
+        ============================================= */
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
-        .scroll-smooth { scroll-behavior: smooth; }
-        @keyframes spin-slow {
+
+        /* =============================================
+           FUNDO FUTURISTA: GRID ANIMADO
+           Cria um padrão de grade infinita no background do hero
+        ============================================= */
+        .hero-grid {
+            background-image:
+                linear-gradient(rgba(0,255,157,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,157,0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+
+        /* O grid pulsa levemente para dar sensação de vida */
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* =============================================
+           ANIMAÇÃO DA FOTO: ANEL ROTACIONANDO
+           Anel pontilhado que gira lentamente ao redor da foto
+        ============================================= */
+        @keyframes spinSlow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        .animate-spin-slow {
-            animation: spin-slow 10s linear infinite;
+        .spin-slow { animation: spinSlow 12s linear infinite; }
+
+        /* Anel secundário girando no sentido contrário para efeito duplo */
+        @keyframes spinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
         }
+        .spin-reverse { animation: spinReverse 18s linear infinite; }
+
+        /* =============================================
+           EFEITO GLOW NO TEXTO DO NOME
+           Pulsa o brilho para dar sensação neon
+        ============================================= */
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0,255,157,0.4), 0 0 40px rgba(0,255,157,0.2); }
+            50% { text-shadow: 0 0 40px rgba(0,255,157,0.7), 0 0 80px rgba(0,255,157,0.3); }
+        }
+        .glow-text { animation: textGlow 3s ease-in-out infinite; }
+
+        /* =============================================
+           CURSOR PERSONALIZADO
+           Substitui o cursor padrão por um crosshair verde neon
+        ============================================= */
+        * { cursor: crosshair; }
+        a, button { cursor: crosshair; }
+
+        /* =============================================
+           EFEITO GLASSMORPHISM
+           Fundo translúcido com desfoque — estilo vidro fosco
+        ============================================= */
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* =============================================
+           PARTÍCULAS ANIMADAS NO HERO
+           Pontos flutuantes para dar profundidade ao fundo
+        ============================================= */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 255, 157, 0.6);
+            animation: float linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        /* =============================================
+           CARDS DE PROJETO: HOVER LIFT + OVERLAY
+           Ao passar o mouse: elevação 3D + overlay com botões
+        ============================================= */
+        .project-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+        .project-card:hover {
+            /* Elevação vertical suave */
+            transform: translateY(-10px);
+            /* Sombra neon aumentada */
+            box-shadow: 0 20px 60px rgba(0, 255, 157, 0.15), 0 0 0 1px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Overlay escuro que aparece com os botões de ação ao hover */
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(2, 8, 23, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .project-card:hover .project-overlay { opacity: 1; }
+
+        /* =============================================
+           SKILL BADGES: ANIMAÇÃO DE ENTRADA
+           Cada badge tem um delay escalonado para entrar em sequência
+        ============================================= */
+        .skill-badge {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-badge::before {
+            /* Brilho que passa pelo badge ao hover (shimmer effect) */
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .skill-badge:hover::before { left: 100%; }
+        .skill-badge:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.3);
+            border-color: rgba(0, 255, 157, 0.8) !important;
+        }
+
+        /* =============================================
+           BOTÃO PRIMÁRIO: EFEITO RIPPLE + GLOW
+        ============================================= */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-primary::after {
+            /* Círculo que expande a partir do clique (ripple) */
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, #00ff9d, #00cc7d);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        .btn-primary:hover::after { transform: scaleX(1); }
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.5), 0 0 80px rgba(0, 255, 157, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* =============================================
+           BARRA DE PROGRESSO DAS SKILLS
+           Animação da barra que preenche quando entra na tela
+        ============================================= */
+        .progress-bar {
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* =============================================
+           NAVBAR ATIVA: INDICA SEÇÃO ATUAL
+        ============================================= */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: #00ff9d;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px rgba(0,255,157,0.8);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+
+        /* =============================================
+           LINHA DECORATIVA ANIMADA
+           Linha horizontal que cresce da esquerda para direita
+        ============================================= */
+        .line-grow {
+            animation: lineGrow 1s ease forwards;
+        }
+        @keyframes lineGrow {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+
+        /* =============================================
+           CONTADORES DE ESTATÍSTICAS
+           Transição suave nos números do hero
+        ============================================= */
+        .stat-number { font-family: 'Syne', sans-serif; }
+
+        /* =============================================
+           SEÇÃO "SOBRE": CARD COM BORDA GRADIENTE
+           Borda animada com cor gradiente ao redor do card
+        ============================================= */
+        .gradient-border {
+            position: relative;
+            background: rgba(15, 23, 42, 0.8);
+        }
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(0,255,157,0.5), transparent, rgba(59,130,246,0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        /* =============================================
+           ÍCONES SOCIAIS: EFEITO FLUTUANTE AO HOVER
+        ============================================= */
+        .social-icon {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.15);
+        }
+
+        /* =============================================
+           SCROLLBAR PERSONALIZADA
+           Estiliza a barra de rolagem para combinar com o tema
+        ============================================= */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020817; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 157, 0.4);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 157, 0.7); }
+
+        /* =============================================
+           SELEÇÃO DE TEXTO PERSONALIZADA
+        ============================================= */
+        ::selection { background: #00ff9d; color: #020817; }
+
+        /* =============================================
+           EFEITO HOVER NOS CARDS DA SEÇÃO SOBRE
+        ============================================= */
+        .about-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #00ff9d, #3b82f6);
+            transition: width 0.4s ease;
+        }
+        .about-card:hover::after { width: 100%; }
+        .about-card:hover { transform: translateY(-4px); }
+
+        /* =============================================
+           TYPING EFFECT NO SUBTÍTULO DO HERO
+           Simula digitação com cursor piscante
+        ============================================= */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.8s step-end infinite;
+            color: #00ff9d;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* =============================================
+           ANIMAÇÃO DO HERO: ENTRADA SUAVE
+        ============================================= */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-element {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        .hero-element:nth-child(1) { animation-delay: 0.1s; }
+        .hero-element:nth-child(2) { animation-delay: 0.3s; }
+        .hero-element:nth-child(3) { animation-delay: 0.5s; }
+        .hero-element:nth-child(4) { animation-delay: 0.7s; }
+        .hero-element:nth-child(5) { animation-delay: 0.9s; }
     </style>
 </head>
-<body class="bg-slate-950 text-gray-300 selection:bg-neon selection:text-slate-900 overflow-x-hidden">
 
-    <!-- NAV -->
-    <nav class="fixed w-full z-50 bg-slate-950/90 backdrop-blur-md border-b border-white/10">
+<!-- =============================================
+     BODY: Fundo escuro profundo quase-preto
+============================================= -->
+<body class="bg-[#020817] text-gray-300 overflow-x-hidden">
+
+    <!-- =============================================
+         NAVBAR FIXA
+         - Glassmorphism para deixar translúcida
+         - Links com underline animado ao hover/ativo
+    ============================================= -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex-shrink-0 cursor-pointer" onclick="scrollToSection('home')">
-                    <h1 class="text-2xl font-bold text-white tracking-tighter">
-                        Luiz<span class="text-neon">.dev</span>
+            <div class="flex items-center justify-between h-18 py-4">
+
+                <!-- Logo: nome com ponto verde -->
+                <div class="flex-shrink-0 cursor-crosshair" onclick="scrollToSection('home')">
+                    <h1 class="text-xl font-display font-bold text-white tracking-tight cursor-pointer select-none">
+                        Luiz<span class="text-neon" style="text-shadow: 0 0 15px rgba(0,255,157,0.5)">.dev</span>
                     </h1>
                 </div>
-                
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <button onclick="scrollToSection('home')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Início</button>
-                        <button onclick="scrollToSection('sobre')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Sobre</button>
-                        <button onclick="scrollToSection('projetos')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Projetos</button>
-                        <button onclick="scrollToSection('contato')" class="hover:text-neon transition-colors px-3 py-2 rounded-md text-sm font-medium">Contato</button>
-                    </div>
+
+                <!-- Links desktop -->
+                <div class="hidden md:flex items-center gap-8">
+                    <button onclick="scrollToSection('home')" class="nav-link text-gray-400 hover:text-white transition-colors text-sm font-medium tracking-wide" data-section="home">Início</button>
+                    <button onclick="scrollToSection('sobre')" class="nav-link text-gray-400 hover:text-white transition-colors text-sm font-medium tracking-wide" data-section="sobre">Sobre</button>
+                    <button onclick="scrollToSection('projetos')" class="nav-link text-gray-400 hover:text-white transition-colors text-sm font-medium tracking-wide" data-section="projetos">Projetos</button>
+                    <button onclick="scrollToSection('contato')" class="nav-link text-gray-400 hover:text-white transition-colors text-sm font-medium tracking-wide" data-section="contato">Contato</button>
                 </div>
 
-                <div class="md:hidden">
-                    <button onclick="toggleMenu()" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
-                    </button>
+                <!-- Botão CTA no nav (desktop) -->
+                <div class="hidden md:block">
+                    <a href="https://github.com/luizhrx" target="_blank"
+                       class="flex items-center gap-2 px-4 py-2 rounded border border-neon/30 text-neon text-sm font-mono hover:bg-neon/10 transition-all hover:border-neon/70">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                        GitHub
+                    </a>
                 </div>
+
+                <!-- Botão hamburguer mobile -->
+                <button onclick="toggleMenu()" class="md:hidden text-gray-400 hover:text-white transition-colors p-2">
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                </button>
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-white/10">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <button onclick="scrollToSection('home')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Início</button>
-                <button onclick="scrollToSection('sobre')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Sobre</button>
-                <button onclick="scrollToSection('projetos')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Projetos</button>
-                <button onclick="scrollToSection('contato')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-2 rounded-md text-base font-medium">Contato</button>
+        <!-- Menu mobile: dropdown com animação -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/5">
+            <div class="px-4 py-4 space-y-1">
+                <button onclick="scrollToSection('home')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-3 text-sm font-medium transition-colors border-b border-white/5">Início</button>
+                <button onclick="scrollToSection('sobre')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-3 text-sm font-medium transition-colors border-b border-white/5">Sobre</button>
+                <button onclick="scrollToSection('projetos')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-3 text-sm font-medium transition-colors border-b border-white/5">Projetos</button>
+                <button onclick="scrollToSection('contato')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-3 text-sm font-medium transition-colors">Contato</button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="pt-20 min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-neon/10 rounded-full blur-[100px] -z-10"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] -z-10"></div>
+    <!-- =============================================
+         HERO SECTION
+         - Background: grade futurista + gradientes + partículas
+         - Layout: texto à esquerda, foto à direita
+    ============================================= -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-12 w-full">
-            <div class="flex-1 text-center md:text-left space-y-6">
-                <div class="inline-block px-3 py-1 rounded-full border border-neon/30 bg-neon/5 text-neon text-sm font-semibold mb-4">
-                    💻 Ciência da Computação
+        <!-- CAMADA 1: Grade futurista de fundo -->
+        <div class="absolute inset-0 hero-grid pointer-events-none"></div>
+
+        <!-- CAMADA 2: Gradientes de glow (manchas de luz) -->
+        <!-- Glow verde superior esquerdo -->
+        <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-neon/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <!-- Glow azul centro direito -->
+        <div class="absolute top-1/4 right-0 w-[400px] h-[400px] bg-electric/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <!-- Glow verde inferior -->
+        <div class="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-neon/3 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <!-- CAMADA 3: Partículas flutuantes geradas via JS (ao final do arquivo) -->
+        <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+        <!-- CONTEÚDO PRINCIPAL DO HERO -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-20">
+
+                <!-- COLUNA ESQUERDA: Texto + CTAs -->
+                <div class="flex-1 text-center lg:text-left space-y-7">
+
+                    <!-- Badge de status/categoria com animação de entrada -->
+                    <div class="hero-element inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon/25 bg-neon/5 text-neon text-xs font-mono tracking-widest uppercase">
+                        <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
+                        Ciência da Computação 
+                    </div>
+
+                    <!-- Título principal com fonte display grande -->
+                    <div class="hero-element">
+                        <p class="text-gray-400 text-lg font-light mb-2 tracking-wide">Olá, eu sou</p>
+                        <h1 class="text-5xl sm:text-6xl md:text-7xl font-display font-bold text-white leading-none tracking-tight">
+                            Luiz
+                            <!-- Nome em gradiente neon com glow animado -->
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-neon via-emerald-300 to-neon glow-text" style="background-size: 200%; animation: textGlow 3s ease-in-out infinite, gradientShift 4s ease infinite;">
+                                Henrique
+                            </span>
+                        </h1>
+                    </div>
+
+                    <!-- Subtítulo com efeito de digitação -->
+                    <p class="hero-element text-gray-400 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed font-light">
+                        Transformando lógica em soluções reais. <br>
+                        <span class="text-gray-300">Explorando o universo do</span>
+                        <!-- Texto com destaque neon -->
+                        <span class="text-neon font-mono"> Backend</span> &
+                        <span class="text-electric font-mono"> Inteligência Artificial.</span>
+                    </p>
+
+                    <!-- Botões de ação -->
+                    <div class="hero-element flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <!-- Botão primário com efeito glow -->
+                        <button onclick="scrollToSection('projetos')"
+                                class="btn-primary relative px-8 py-3.5 bg-neon text-[#020817] font-bold font-display text-sm tracking-wider rounded hover:scale-105 transition-transform shadow-[0_0_30px_rgba(0,255,157,0.3)] z-10">
+                            Ver Projetos
+                            <span class="ml-2">→</span>
+                        </button>
+                        <!-- Botão secundário: contorno -->
+                        <button onclick="scrollToSection('contato')"
+                                class="px-8 py-3.5 border border-white/20 text-white font-medium text-sm rounded hover:border-neon/50 hover:text-neon hover:bg-neon/5 transition-all">
+                            Falar Comigo
+                        </button>
+                    </div>
+
+                    <!-- Ícones sociais -->
+                    <div class="hero-element flex justify-center lg:justify-start gap-5 pt-2">
+                        <a href="https://github.com/luizhrx" target="_blank"
+                           class="social-icon w-10 h-10 rounded border border-white/10 flex items-center justify-center text-gray-500 hover:text-white hover:border-white/30 hover:bg-white/5 transition-all">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/luizhrx/" target="_blank"
+                           class="social-icon w-10 h-10 rounded border border-white/10 flex items-center justify-center text-gray-500 hover:text-[#0077b5] hover:border-[#0077b5]/50 hover:bg-[#0077b5]/10 transition-all">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://instagram.com/_luizhrx" target="_blank"
+                           class="social-icon w-10 h-10 rounded border border-white/10 flex items-center justify-center text-gray-500 hover:text-pink-400 hover:border-pink-400/50 hover:bg-pink-400/10 transition-all">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                    </div>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">
-                    Olá, eu sou <br />
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon to-emerald-600">
-                        Luiz Henrique
+
+                <!-- COLUNA DIREITA: Foto com efeitos -->
+                <div class="flex-1 flex justify-center items-center">
+                    <!-- Container da foto com múltiplos anéis decorativos -->
+                    <div class="relative w-72 h-72 md:w-80 md:h-80">
+
+                        <!-- Anel externo: glow pulsante -->
+                        <div class="absolute -inset-4 rounded-full"
+                             style="background: conic-gradient(from 0deg, transparent 50%, rgba(0,255,157,0.4) 100%); animation: spinSlow 4s linear infinite; filter: blur(8px);"></div>
+
+                        
+                        <div class="absolute inset-0 rounded-full border-2 border-dashed border-neon/30 spin-slow"></div>
+
+                        
+                        <div class="absolute inset-2 rounded-full border border-neon/15 spin-reverse"
+                             style="border-style: dashed; border-width: 1px;"></div>
+
+                        
+                        <div class="absolute inset-4 rounded-full overflow-hidden bg-slate-900 border-2 border-neon/30"
+                             style="box-shadow: 0 0 40px rgba(0,255,157,0.2), inset 0 0 40px rgba(0,0,0,0.5);">
+                            <!-- Substituasua pela foto real -->
+                            <img src="fotoDeLuiz.png" alt="Luiz Henrique" class="-mt-12"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback se a foto não carregar -->
+                            <div class="hidden w-full h-full items-center justify-center flex-col gap-2 text-gray-600">
+                                <i data-lucide="user" class="w-16 h-16"></i>
+                                <span class="text-xs font-mono text-neon/50">luizhrx.jpg</span>
+                            </div>
+                        </div>
+
+                        <!-- Pontos decorativos nos cantos (ornamentos) -->
+                        <div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-neon" style="box-shadow: 0 0 10px rgba(0,255,157,0.8);"></div>
+                        <div class="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-electric" style="box-shadow: 0 0 8px rgba(59,130,246,0.8);"></div>
+                        <div class="absolute top-1/2 -right-3 w-1.5 h-1.5 rounded-full bg-neon/60"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicador de scroll animado (bounce) -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce text-gray-600">
+                <span class="text-xs font-mono tracking-widest uppercase">scroll</span>
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         SEÇÃO SOBRE
+         - Texto biográfico à esquerda
+         - Cards de área de atuação à direita
+         - Habilidades técnicas com barras de progresso animadas
+    ============================================= -->
+    <section id="sobre" class="py-24 relative overflow-hidden" style="background: #050d1a;">
+        <!-- Gradiente de transição do hero -->
+        <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-neon/30 to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Título da seção -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <!-- Label decorativo acima do título -->
+                <span class="text-xs font-mono text-neon/60 tracking-widest uppercase">// sobre_mim.md</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white mt-3 mb-4">
+                    Sobre <span class="text-neon">Mim</span>
+                </h2>
+                <!-- Linha decorativa centralizada -->
+                <div class="w-0 h-0.5 bg-gradient-to-r from-neon to-electric mx-auto rounded-full line-grow" id="about-line"></div>
+            </div>
+
+            <!-- Grid de conteúdo: texto + cards -->
+            <div class="grid lg:grid-cols-2 gap-16 items-start mb-20">
+
+                <!-- COLUNA ESQUERDA: Texto biográfico -->
+                <div class="space-y-5" data-aos="fade-right" data-aos-delay="100">
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        Sou estudante de <span class="text-white font-semibold">Ciência da Computação</span>, apaixonado por entender como as coisas funcionam <em class="text-neon not-italic font-mono">"por baixo do capô"</em>.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        Minha jornada começou com a curiosidade sobre jogos e hoje foco em desenvolver soluções completas. Gosto de resolver problemas lógicos e estou sempre buscando aprender novas tecnologias.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        Atualmente, meu foco é aprofundar conhecimentos em
+                        <span class="text-neon font-mono">Java</span>,
+                        <span class="text-electric font-mono">SQL</span> e explorar frameworks modernos para web e IA.
+                    </p>
+
+                    <!-- Mini stats do estudante -->
+                    <div class="grid grid-cols-3 gap-4 pt-4">
+                        <div class="text-center p-4 rounded-lg border border-white/5 bg-white/2 hover:border-neon/30 transition-colors">
+                            <div class="text-2xl font-display font-bold text-neon stat-number">3º</div>
+                            <div class="text-xs text-gray-500 mt-1">Período</div>
+                        </div>
+                        <div class="text-center p-4 rounded-lg border border-white/5 bg-white/2 hover:border-neon/30 transition-colors">
+                            <div class="text-2xl font-display font-bold text-neon stat-number">3+</div>
+                            <div class="text-xs text-gray-500 mt-1">Projetos</div>
+                        </div>
+                        <div class="text-center p-4 rounded-lg border border-white/5 bg-white/2 hover:border-neon/30 transition-colors">
+                            <div class="text-2xl font-display font-bold text-neon stat-number">∞</div>
+                            <div class="text-xs text-gray-500 mt-1">Curiosidade</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: Cards de área de atuação -->
+                <div class="grid grid-cols-2 gap-4" data-aos="fade-left" data-aos-delay="200">
+                    <!-- Card Backend -->
+                    <div class="about-card gradient-border p-6 rounded-xl cursor-default">
+                        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+                            <i data-lucide="terminal" class="text-neon w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-lg mb-1">Backend</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Lógica robusta e APIs bem estruturadas.</p>
+                    </div>
+                    <!-- Card Web -->
+                    <div class="about-card gradient-border p-6 rounded-xl cursor-default">
+                        <div class="w-10 h-10 rounded-lg bg-electric/10 border border-electric/20 flex items-center justify-center mb-4">
+                            <i data-lucide="globe" class="text-electric w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-lg mb-1">Web</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Interfaces modernas e responsivas.</p>
+                    </div>
+                    <!-- Card IA -->
+                    <div class="about-card gradient-border p-6 rounded-xl cursor-default">
+                        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+                            <i data-lucide="cpu" class="text-neon w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-lg mb-1">I.A.</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Interesse crescente em machine learning.</p>
+                    </div>
+                    <!-- Card Dados -->
+                    <div class="about-card gradient-border p-6 rounded-xl cursor-default">
+                        <div class="w-10 h-10 rounded-lg bg-electric/10 border border-electric/20 flex items-center justify-center mb-4">
+                            <i data-lucide="database" class="text-electric w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-lg mb-1">Dados</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Modelagem e persistência eficiente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =============================================
+                 SKILLS: Barras de progresso + badges modernos
+            ============================================= -->
+            <div data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="text-xs font-mono text-neon/60 tracking-widest uppercase">// skills.json</span>
+                    <div class="flex-1 h-px bg-white/5"></div>
+                </div>
+
+                <!-- Grid de barras de progresso (habilidades com nível) -->
+                <div class="grid md:grid-cols-2 gap-6 mb-10" id="skills-bars">
+                    <!-- Cada item: nome + nível em % + barra animada -->
+                    <!-- Java -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-neon"></span>
+                                Java
+                            </span>
+                            <span class="text-xs font-mono text-neon/70">85%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-neon to-emerald-400 rounded-full" data-width="85"></div>
+                        </div>
+                    </div>
+                    <!-- Python -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-electric"></span>
+                                Python
+                            </span>
+                            <span class="text-xs font-mono text-electric/70">70%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-electric to-blue-300 rounded-full" data-width="70"></div>
+                        </div>
+                    </div>
+                    <!-- HTML/CSS -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-neon"></span>
+                                HTML5 / CSS3
+                            </span>
+                            <span class="text-xs font-mono text-neon/70">65%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-neon to-emerald-400 rounded-full" data-width="65"></div>
+                        </div>
+                    </div>
+                    <!-- SQL -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-electric"></span>
+                                SQL
+                            </span>
+                            <span class="text-xs font-mono text-electric/70">65%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-electric to-blue-300 rounded-full" data-width="65"></div>
+                        </div>
+                    </div>
+                    <!-- Git -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-neon"></span>
+                                Git / GitHub
+                            </span>
+                            <span class="text-xs font-mono text-neon/70">70%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-neon to-emerald-400 rounded-full" data-width="70"></div>
+                        </div>
+                    </div>
+                    <!-- Lógica -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-300 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-electric"></span>
+                                Lógica de Prog.
+                            </span>
+                            <span class="text-xs font-mono text-electric/70">85%</span>
+                        </div>
+                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="progress-bar h-full bg-gradient-to-r from-electric to-blue-300 rounded-full" data-width="85"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges de tecnologia complementares -->
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <!-- Cada badge tem shimmer effect ao hover (via .skill-badge CSS) -->
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-neon">☕</span> Java
                     </span>
-                </h1>
-                <p class="text-lg text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
-                    Atualmente no 3º período, sou apaixonado por transformar lógica em soluções reais. Explorando o universo do Backend e Inteligência Artificial.
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-electric">🐍</span> Python
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-orange-400">🌐</span> HTML5
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-blue-400">🎨</span> CSS3
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-neon">🗄️</span> SQL
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-orange-300">🔀</span> Git
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-gray-400">🐙</span> GitHub
+                    </span>
+                    <span class="skill-badge px-4 py-2 rounded bg-slate-900 border border-slate-700 text-sm font-mono text-gray-300">
+                        <span class="text-neon">🔗</span> APIs REST
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         SEÇÃO PROJETOS
+         - Cards com overlay de botões ao hover
+         - Efeito lift (eleva o card ao hover)
+         - Tags de tecnologias estilizadas
+    ============================================= -->
+    <section id="projetos" class="py-24 bg-[#020817] relative overflow-hidden">
+        <!-- Linha separadora no topo -->
+        <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-neon/20 to-transparent"></div>
+
+        <!-- Glow de fundo sutil -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-neon/3 rounded-full blur-[150px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+            <!-- Título da seção -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-xs font-mono text-neon/60 tracking-widest uppercase">// projetos.jsx</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white mt-3 mb-4">
+                    Meus <span class="text-neon">Projetos</span>
+                </h2>
+                <p class="text-gray-500 max-w-md mx-auto">
+                    Desenvolvidos durante a faculdade e nos estudos pessoais.
                 </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
-                    <button onclick="scrollToSection('projetos')" class="px-8 py-3 bg-neon text-slate-900 font-bold rounded hover:bg-[#00cc7d] transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,255,157,0.3)]">
-                        Ver Projetos
-                    </button>
-                </div>
-
-                <div class="flex justify-center md:justify-start gap-6 pt-6">
-                    <a href="https://github.com/luizhrx" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="github"></i></a>
-                    <a href="https://www.linkedin.com/in/luizhrx/" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="linkedin"></i></a>
-                    <a href="https://instagram.com/_luizhrx" target="_blank" class="text-gray-400 hover:text-neon transition-colors"><i data-lucide="instagram"></i></a>
-                </div>
             </div>
 
-            <div class="flex-1 flex justify-center items-center relative">
-                <div class="relative w-64 h-64 md:w-80 md:h-80">
-                    <div class="absolute inset-0 rounded-full border-2 border-neon border-dashed animate-spin-slow"></div>
-                    <div class="absolute inset-2 rounded-full overflow-hidden bg-slate-800 border-4 border-slate-700 shadow-2xl flex items-center justify-center">
-                         <!-- FOTO -->
-                         <div class="flex flex-col items-center justify-center text-gray-500">
-                            <span class="text-4xl mb-2">👋</span>
-                            <img src="fotoDeLuiz.png" alt="luiz" class="-mt-0">
-                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500">
-            <i data-lucide="chevron-down"></i>
-        </div>
-    </section>
-
-    <!-- SOBRE SECTION -->
-    <section id="sobre" class="py-20 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Sobre <span class="text-neon">Mim</span></h2>
-                <div class="w-20 h-1 bg-neon mx-auto rounded-full"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6 text-lg">
-                    <p>Sou estudante de <strong class="text-white">Ciência da Computação</strong>, apaixonado por entender como as coisas funcionam "por baixo do capô".</p>
-                    <p>Minha jornada começou com a curiosidade sobre jogos e hoje foco em desenvolver soluções completas. Gosto de resolver problemas lógicos e estou sempre buscando aprender novas tecnologias.</p>
-                    <p>Atualmente, meu foco é aprofundar conhecimentos em <span class="text-neon">Java e <br>SQL</span>, além de explorar frameworks modernos para web.</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
-                        <i data-lucide="terminal" class="text-neon mb-4 w-8 h-8"></i>
-                        <h3 class="font-bold text-white text-lg mb-2">Backend</h3>
-                        <p class="text-sm text-gray-400">Desenvolvimento de lógica robusta e APIs.</p>
-                    </div>
-                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
-                        <i data-lucide="globe" class="text-neon mb-4 w-8 h-8"></i>
-                        <h3 class="font-bold text-white text-lg mb-2">Web</h3>
-                        <p class="text-sm text-gray-400">Interfaces modernas e responsivas.</p>
-                    </div>
-                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
-                        <i data-lucide="cpu" class="text-neon mb-4 w-8 h-8"></i>
-                        <h3 class="font-bold text-white text-lg mb-2">I.A.</h3>
-                        <p class="text-sm text-gray-400">Interesse em aprendizado de máquina.</p>
-                    </div>
-                    <div class="bg-slate-950 p-6 rounded-xl border border-white/5 hover:border-neon/50 transition-all hover:-translate-y-1">
-                        <i data-lucide="database" class="text-neon mb-4 w-8 h-8"></i>
-                        <h3 class="font-bold text-white text-lg mb-2">Dados</h3>
-                        <p class="text-sm text-gray-400">Modelagem e persistência de dados.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SKILLS -->
-            <div class="mt-20">
-                <h3 class="text-2xl font-bold text-white mb-8 text-center md:text-left">Habilidades Técnicas</h3>
-                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">Java</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">Python</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">HTML5 / CSS3</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">SQL</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">Git / GitHub</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 hover:border-neon transition-colors group">
-                        <div class="w-2 h-2 rounded-full bg-neon group-hover:animate-pulse"></div>
-                        <span class="text-white font-medium">Lógica de Prog.</span>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROJETOS SECTION -->
-    <section id="projetos" class="py-20 bg-slate-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Meus <span class="text-neon">Projetos</span></h2>
-                <p class="text-gray-400">Um pouco do que tenho desenvolvido na faculdade e estudos pessoais.</p>
-            </div>
-
+            <!-- Grid de cards de projeto -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- PROJETO 1 -->
-                 <div class="bg-slate-900 rounded-xl overflow-hidden border border-white/10 hover:border-neon/50 transition-all group flex flex-col h-full">
-                    
-                    
-                    <div class="h-48 bg-slate-800 flex items-center justify-center relative overflow-hidden group-hover:bg-slate-800/80 transition-all">
-                        <i data-lucide="clapperboard" class="text-gray-600 w-12 h-12 group-hover:text-neon transition-colors duration-500"></i>
-                        
-                        <div class="absolute inset-0 bg-neon/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                        <img src="buscar-filmes.png" alt="Projeto Buscar Filmes">
 
+                <!-- ========== PROJETO 1: Buscador de Filmes ========== -->
+                <div class="project-card relative bg-slate-900/80 rounded-xl overflow-hidden border border-white/8 flex flex-col h-full"
+                     data-aos="fade-up" data-aos-delay="0">
+
+                    <!-- Thumbnail do projeto com overlay de ações -->
+                    <div class="relative h-48 overflow-hidden bg-slate-800">
+                        <!-- Imagem do projeto -->
+                        <img src="buscar-filmes.png" alt="Buscador de Filmes"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             onerror="this.style.display='none'">
+
+                        <!-- Ícone fallback se imagem não carregar -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            
+                        </div>
+
+                        <!-- Overlay escuro com botões — aparece ao hover via CSS -->
+                        <div class="project-overlay rounded-t-xl">
+                            <!-- Botão GitHub -->
+                            <a href="https://github.com/luizhrx/buscador-filmes" target="_blank"
+                               class="flex items-center gap-2 px-5 py-2.5 bg-white/10 border border-white/20 text-white text-sm font-medium rounded hover:bg-white hover:text-black transition-all backdrop-blur-sm">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                GitHub
+                            </a>
+                        </div>
+
+                        <!-- Gradiente inferior para suavizar a transição -->
+                        <div class="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-slate-900 to-transparent"></div>
                     </div>
 
-                    
+                    <!-- Conteúdo do card -->
                     <div class="p-6 flex flex-col flex-grow">
-                        
-                        
-                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon transition-colors">
-                            Buscador de Filmes (API OMDb)
+                        <!-- Número do projeto (decorativo) -->
+                        <span class="text-xs font-mono text-neon/40 mb-2">// projeto_01</span>
+
+                        <h3 class="text-xl font-display font-bold text-white mb-3 group-hover:text-neon transition-colors leading-tight">
+                            Buscador de Filmes
+                            <span class="text-neon/60 text-base"> (API OMDb)</span>
                         </h3>
 
-                       
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">
-                            Sistema em Java que consome a API OMDb para buscar e exibir detalhes de filmes (título, ano, diretor). Possui menu interativo no terminal, histórico de buscas e tratamento de JSON com a biblioteca Gson.
+                        <p class="text-gray-400 text-sm mb-5 flex-grow leading-relaxed">
+                            Sistema em Java que consome a API OMDb para buscar e exibir detalhes de filmes. Possui menu interativo no terminal, histórico de buscas e tratamento de JSON com Gson.
                         </p>
-                        
-                        
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">Java</span>
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">API REST</span>
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">Gson</span>
+
+                        <!-- Tags de tecnologia usadas -->
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-xs bg-neon/8 text-neon px-2.5 py-1 rounded border border-neon/15 font-mono">Java</span>
+                            <span class="text-xs bg-neon/8 text-neon px-2.5 py-1 rounded border border-neon/15 font-mono">API REST</span>
+                            <span class="text-xs bg-neon/8 text-neon px-2.5 py-1 rounded border border-neon/15 font-mono">Gson</span>
                         </div>
 
-                        
-                        <a href="https://github.com/luizhrx/buscador-filmes" class="w-full py-2 flex items-center justify-center gap-2 bg-slate-800 text-white rounded hover:bg-neon hover:text-slate-900 font-medium transition-all">
-                            <i data-lucide="github" class="w-4 h-4"></i>
-                            Ver no GitHub
-                        </a>
-                    </div>
-                <!-- PROJETO 2 -->
-                </div>
-                <div class="bg-slate-900 rounded-xl overflow-hidden border border-white/10 hover:border-neon/50 transition-all group flex flex-col h-full">
-                    <div class="h-48 bg-slate-800 flex items-center justify-center relative overflow-hidden group-hover:bg-slate-800/80 transition-all">
-                        <i data-lucide="code" class="text-gray-600 w-12 h-12 group-hover:text-neon transition-colors duration-500"></i>
-                        <div class="absolute inset-0 bg-neon/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                        <img src="conta.jpg" alt="conta">
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon transition-colors">Conta Bancária em Python</h3>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">
-                            Projeto de console simples que simula operações bancárias básicas, demonstrando conceitos fundamentais de Programação Orientada a Objetos (POO) em Python.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">Python</span>
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">POO</span>
-                        </div>
-                        <a href="https://github.com/luizhrx/projeto-Conta_Bancaria" class="w-full py-2 flex items-center justify-center gap-2 bg-slate-800 text-white rounded hover:bg-neon hover:text-slate-900 font-medium transition-all">
+                        <!-- Botão de ação inferior -->
+                        <a href="https://github.com/luizhrx/buscador-filmes" target="_blank"
+                           class="w-full py-2.5 flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-gray-300 rounded text-sm font-medium hover:bg-neon hover:text-[#020817] hover:border-neon transition-all duration-300">
                             <i data-lucide="github" class="w-4 h-4"></i>
                             Ver no GitHub
                         </a>
                     </div>
                 </div>
-                <!-- PROJETO 3 -->
-                <div class="bg-slate-900 rounded-xl overflow-hidden border border-white/10 hover:border-neon/50 transition-all group flex flex-col h-full">
-                    
-                    
-                    <div class="h-48 bg-slate-800 flex items-center justify-center relative overflow-hidden group-hover:bg-slate-800/80 transition-all">
-                        
-                        <i data-lucide="package" class="text-gray-600 w-12 h-12 group-hover:text-neon transition-colors duration-500"></i>
-                        <div class="absolute inset-0 bg-neon/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                        <img src="controle.jpg" alt="controle">
+
+                <!-- ========== PROJETO 2: Conta Bancária ========== -->
+                <div class="project-card relative bg-slate-900/80 rounded-xl overflow-hidden border border-white/8 flex flex-col h-full"
+                     data-aos="fade-up" data-aos-delay="100">
+
+                    <div class="relative h-48 overflow-hidden bg-slate-800">
+                        <img src="conta.jpg" alt="Conta Bancária"
+                             class="w-full h-full object-cover transition-transform duration-500"
+                             onerror="this.style.display='none'">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            
+                        </div>
+                        <div class="project-overlay rounded-t-xl">
+                            <a href="https://github.com/luizhrx/projeto-Conta_Bancaria" target="_blank"
+                               class="flex items-center gap-2 px-5 py-2.5 bg-white/10 border border-white/20 text-white text-sm font-medium rounded hover:bg-white hover:text-black transition-all backdrop-blur-sm">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                GitHub
+                            </a>
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-slate-900 to-transparent"></div>
                     </div>
 
                     <div class="p-6 flex flex-col flex-grow">
-                        
-                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon transition-colors">
-                            Sistema de Controle de Estoque
+                        <span class="text-xs font-mono text-electric/40 mb-2">// projeto_02</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-3 leading-tight">
+                            Conta Bancária
+                            <span class="text-electric/60 text-base"> (Python)</span>
                         </h3>
-
-                        
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">
-                            Simula o controle de estoque de um pequeno negócio, aplicando conceitos de programação orientada a objetos para um gerenciamento estruturado e eficiente de produtos.
+                        <p class="text-gray-400 text-sm mb-5 flex-grow leading-relaxed">
+                            Projeto de console que simula operações bancárias básicas, demonstrando os conceitos fundamentais de Programação Orientada a Objetos (POO) em Python.
                         </p>
-                        
-                        
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">Java</span>
-                            <span class="text-xs bg-slate-800 text-neon px-2 py-1 rounded border border-neon/20">POO</span>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-xs bg-electric/8 text-electric px-2.5 py-1 rounded border border-electric/15 font-mono">Python</span>
+                            <span class="text-xs bg-electric/8 text-electric px-2.5 py-1 rounded border border-electric/15 font-mono">POO</span>
                         </div>
-
-                        
-                        <a href="https://github.com/luizhrx/ControleDeEstoque" class="w-full py-2 flex items-center justify-center gap-2 bg-slate-800 text-white rounded hover:bg-neon hover:text-slate-900 font-medium transition-all">
+                        <a href="https://github.com/luizhrx/projeto-Conta_Bancaria" target="_blank"
+                           class="w-full py-2.5 flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-gray-300 rounded text-sm font-medium hover:bg-electric hover:text-white hover:border-electric transition-all duration-300">
                             <i data-lucide="github" class="w-4 h-4"></i>
                             Ver no GitHub
                         </a>
                     </div>
                 </div>
+
+                <!-- ========== PROJETO 3: Controle de Estoque ========== -->
+                <div class="project-card relative bg-slate-900/80 rounded-xl overflow-hidden border border-white/8 flex flex-col h-full"
+                     data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="relative h-48 overflow-hidden bg-slate-800">
+                        <img src="controle.jpg" alt="Controle de Estoque"
+                             class="w-full h-full object-cover transition-transform duration-500"
+                             onerror="this.style.display='none'">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            
+                        </div>
+                        <div class="project-overlay rounded-t-xl">
+                            <a href="https://github.com/luizhrx/ControleDeEstoque" target="_blank"
+                               class="flex items-center gap-2 px-5 py-2.5 bg-white/10 border border-white/20 text-white text-sm font-medium rounded hover:bg-white hover:text-black transition-all backdrop-blur-sm">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                GitHub
+                            </a>
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-xs font-mono text-neon/40 mb-2">// projeto_03</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-3 leading-tight">
+                            Controle de Estoque
+                            <span class="text-neon/60 text-base"> (Java)</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-5 flex-grow leading-relaxed">
+                            Sistema de gerenciamento para pequenos negócios. Aplica POO em Java para controle estruturado e eficiente de produtos no estoque.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-xs bg-neon/8 text-neon px-2.5 py-1 rounded border border-neon/15 font-mono">Java</span>
+                            <span class="text-xs bg-neon/8 text-neon px-2.5 py-1 rounded border border-neon/15 font-mono">POO</span>
+                        </div>
+                        <a href="https://github.com/luizhrx/ControleDeEstoque" target="_blank"
+                           class="w-full py-2.5 flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-gray-300 rounded text-sm font-medium hover:bg-neon hover:text-[#020817] hover:border-neon transition-all duration-300">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                            Ver no GitHub
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Link para ver todos os projetos no GitHub -->
+            <div class="text-center mt-12" data-aos="fade-up">
+                <a href="https://github.com/luizhrx" target="_blank"
+                   class="inline-flex items-center gap-3 px-8 py-3 border border-white/10 text-gray-400 rounded text-sm font-medium hover:border-neon/40 hover:text-neon hover:bg-neon/5 transition-all duration-300">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    Ver todos os projetos no GitHub
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
             </div>
         </div>
     </section>
 
-    
-    <section id="contato" class="py-20 bg-slate-900 relative">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-slate-950 p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl text-center">
-                
-                <h2 class="text-3xl font-bold text-white mb-4">Vamos <span class="text-neon">Conversar?</span></h2>
-                <p class="text-gray-400 mb-10">
-                    Estou disponível para novos projetos, estágios ou apenas para trocar uma ideia sobre tecnologia.
+    <!-- =============================================
+         SEÇÃO CONTATO
+         - Card central com glassmorphism
+         - Botões de email, WhatsApp e redes sociais
+    ============================================= -->
+    <section id="contato" class="py-24 relative overflow-hidden" style="background: #050d1a;">
+        <!-- Linha separadora no topo -->
+        <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-electric/30 to-transparent"></div>
+
+        <!-- Glow de fundo -->
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[600px] h-[300px] bg-neon/4 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+            <!-- Título da seção -->
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="text-xs font-mono text-neon/60 tracking-widest uppercase">// contato.ts</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white mt-3 mb-4">
+                    Vamos <span class="text-neon">Conversar?</span>
+                </h2>
+                <p class="text-gray-500">
+                    Disponível para projetos, estágios ou só trocar ideia sobre tecnologia.
                 </p>
+            </div>
 
-                <div class="flex flex-col items-center justify-center gap-8">
-                    
-                    <!-- Email Card -->
-                    <a href="mailto:luizlopeszx1@gmail.com" class="flex items-center gap-3 text-lg bg-slate-900 px-6 py-4 rounded-full border border-white/5 hover:border-neon transition-colors cursor-pointer group">
-                        
-                        <i data-lucide="mail" class="text-neon w-6 h-6 group-hover:scale-110 transition-transform"></i>
-                        
-                        
-                        <span class="text-gray-200">luizlopeszx1@gmail.com</span>
-                    </a>
+            <!-- Card principal de contato com glassmorphism -->
+            <div class="glass rounded-2xl border border-white/8 p-8 md:p-12 text-center" data-aos="fade-up" data-aos-delay="100"
+                 style="box-shadow: 0 0 80px rgba(0,255,157,0.05), 0 0 0 1px rgba(255,255,255,0.05);">
 
-                    
-                    
-                    <a href="https://wa.me/558387147830" target="_blank" class="flex items-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#20bd5a] transition-all transform hover:scale-105 shadow-lg">
-                        <i data-lucide="message-circle" class="w-6 h-6"></i>
-                        Me Chame no WhatsApp
-                    </a>
-
-                    <!-- Redes Sociais -->
-                    <div class="pt-4">
-                        <p class="text-sm text-gray-500 mb-4 uppercase tracking-wider">Outras Redes</p>
-                        <div class="flex gap-4 justify-center">
-                            <a href="https://www.linkedin.com/in/luizhrx/" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all"><i data-lucide="linkedin"></i></a>
-                            <a href="https://github.com/luizhrx" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all"><i data-lucide="github"></i></a>
-                            <a href="https://instagram.com/_luizhrx" target="_blank" class="w-12 h-12 rounded bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition-all"><i data-lucide="instagram"></i></a>
-                        </div>
+                <!-- Email -->
+                <a href="mailto:luizlopeszx1@gmail.com" class="group inline-flex items-center gap-3 px-6 py-4 rounded-xl border border-white/8 hover:border-neon/40 bg-white/2 hover:bg-neon/5 transition-all duration-300 mb-6 w-full justify-center">
+                    <div class="w-8 h-8 rounded bg-neon/10 border border-neon/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="mail" class="text-neon w-4 h-4"></i>
                     </div>
+                    <span class="text-gray-300 group-hover:text-white transition-colors font-mono text-sm">
+                        luizlopeszx1@gmail.com
+                    </span>
+                </a>
 
+                <!-- WhatsApp -->
+                <a href="https://wa.me/558387147830" target="_blank"
+                   class="inline-flex items-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-sm font-display hover:bg-[#1fb85a] transition-all transform hover:scale-105 w-full justify-center mb-8"
+                   style="box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    Chamar no WhatsApp
+                </a>
+
+                <!-- Divisor -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex-1 h-px bg-white/5"></div>
+                    <span class="text-xs font-mono text-gray-600 tracking-widest uppercase">Outras redes</span>
+                    <div class="flex-1 h-px bg-white/5"></div>
+                </div>
+
+                <!-- Ícones sociais -->
+                <div class="flex gap-4 justify-center">
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/luizhrx/" target="_blank"
+                       class="social-icon w-12 h-12 rounded-xl bg-white/4 border border-white/8 flex items-center justify-center text-gray-500 hover:text-[#0077b5] hover:border-[#0077b5]/40 hover:bg-[#0077b5]/10 transition-all">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <!-- GitHub -->
+                    <a href="https://github.com/luizhrx" target="_blank"
+                       class="social-icon w-12 h-12 rounded-xl bg-white/4 border border-white/8 flex items-center justify-center text-gray-500 hover:text-white hover:border-white/30 hover:bg-white/8 transition-all">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://instagram.com/_luizhrx" target="_blank"
+                       class="social-icon w-12 h-12 rounded-xl bg-white/4 border border-white/8 flex items-center justify-center text-gray-500 hover:text-pink-400 hover:border-pink-400/30 hover:bg-pink-400/8 transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-8 bg-slate-950 border-t border-white/5 text-center text-gray-500 text-sm">
-        <p>© 2025 Luiz Henrique. Desenvolvido com HTML & Tailwind.</p>
+    <!-- =============================================
+         FOOTER
+    ============================================= -->
+    <footer class="py-8 border-t border-white/5 bg-[#020817]">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-600 text-sm font-mono">
+                © 2025 <span class="text-neon/60">luizhrx</span> · Desenvolvido com HTML & Tailwind
+            </p>
+        </div>
     </footer>
 
+    <!-- =============================================
+         JAVASCRIPT: Toda a lógica de interação
+    ============================================= -->
     <script>
+        // ============================================
+        // 1. INICIALIZAÇÃO DOS ÍCONES LUCIDE
+        //    Converte todos os elementos data-lucide em SVGs
+        // ============================================
         lucide.createIcons();
 
+        // ============================================
+        // 2. INICIALIZAÇÃO DO AOS (Animate On Scroll)
+        //    Configura as animações que disparam ao rolar a página
+        // ============================================
+        AOS.init({
+            duration: 700,          // Duração da animação em ms
+            easing: 'ease-out-cubic', // Curva de suavização
+            once: true,             // Anima só uma vez (não repete ao rolar de volta)
+            offset: 80,             // Começa a animar 80px antes de entrar na tela
+        });
+
+        // ============================================
+        // 3. MENU MOBILE: Toggle abrir/fechar
+        // ============================================
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
 
+        // ============================================
+        // 4. SCROLL SUAVE PARA SEÇÃO
+        //    Fecha o menu mobile ao navegar
+        // ============================================
         function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                // Fecha menu mobile se estiver aberto
                 document.getElementById('mobile-menu').classList.add('hidden');
             }
         }
+
+        // ============================================
+        // 5. NAVBAR ATIVA: Destaca o link da seção atual
+        //    Usa IntersectionObserver para detectar qual seção está visível
+        // ============================================
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove a classe ativa de todos os links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    // Adiciona na seção atual
+                    const activeLink = document.querySelector(`[data-section="${entry.target.id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, { threshold: 0.4 }); // Dispara quando 40% da seção está visível
+
+        sections.forEach(s => sectionObserver.observe(s));
+
+        // ============================================
+        // 6. BARRAS DE PROGRESSO DAS SKILLS
+        //    Anima as barras quando a seção entra na tela
+        // ============================================
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Para cada barra de progresso, preenche até o valor em data-width
+                    document.querySelectorAll('.progress-bar').forEach(bar => {
+                        const targetWidth = bar.dataset.width + '%';
+                        // Pequeno delay para garantir que a animação CSS capture a mudança
+                        setTimeout(() => { bar.style.width = targetWidth; }, 200);
+                    });
+                    // Para de observar após animar (só precisa acontecer uma vez)
+                    progressObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        // Observa o container das barras de progresso
+        const skillsBars = document.getElementById('skills-bars');
+        if (skillsBars) progressObserver.observe(skillsBars);
+
+        // ============================================
+        // 7. PARTÍCULAS DO HERO
+        //    Cria pontos flutuantes animados no fundo do hero
+        // ============================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+
+            // Cria 20 partículas com posições e tamanhos aleatórios
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Tamanho aleatório entre 2px e 5px
+                const size = Math.random() * 3 + 2;
+                // Posição horizontal aleatória
+                const left = Math.random() * 100;
+                // Duração da animação aleatória entre 8s e 20s
+                const duration = Math.random() * 12 + 8;
+                // Atraso antes de começar para não sincronizar todas
+                const delay = Math.random() * 10;
+
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${left}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${delay}s;
+                    opacity: ${Math.random() * 0.5 + 0.1};
+                `;
+
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // ============================================
+        // 8. EFEITO DE DIGITAÇÃO NO HERO (Typing effect)
+        //    Simula a digitação de diferentes funções/cargos
+        // ============================================
+        const typingEl = document.getElementById('typing-text');
+        if (typingEl) {
+            // Textos que serão digitados em sequência
+            const texts = [
+                'Backend Developer',
+                'CS Student',
+                'Problem Solver',
+                'Java Enthusiast',
+            ];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const current = texts[textIndex];
+
+                if (!isDeleting) {
+                    // Adicionando caracteres
+                    typingEl.textContent = current.slice(0, charIndex++);
+                    if (charIndex > current.length) {
+                        isDeleting = true;
+                        setTimeout(type, 1500); // Pausa antes de apagar
+                        return;
+                    }
+                } else {
+                    // Apagando caracteres
+                    typingEl.textContent = current.slice(0, charIndex--);
+                    if (charIndex < 0) {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % texts.length;
+                        setTimeout(type, 300); // Pausa antes do próximo texto
+                        return;
+                    }
+                }
+
+                // Velocidade de digitação (menor = mais rápido)
+                setTimeout(type, isDeleting ? 60 : 100);
+            }
+
+            setTimeout(type, 1000); // Começa após 1 segundo
+        }
+
+        // ============================================
+        // 9. GRADIENTE ANIMADO NO NOME (Hero)
+        //    Adiciona keyframe dinamicamente para o gradiente em movimento
+        // ============================================
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes gradientShift {
+                0% { background-position: 0% center; }
+                50% { background-position: 100% center; }
+                100% { background-position: 0% center; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ============================================
+        // 10. NAVBAR BLUR AUMENTADO AO ROLAR
+        //     Aumenta o efeito de vidro na navbar conforme o scroll
+        // ============================================
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(2, 8, 23, 0.95)';
+            } else {
+                navbar.style.background = 'rgba(2, 8, 23, 0.6)';
+            }
+        });
     </script>
 </body>
 </html>
