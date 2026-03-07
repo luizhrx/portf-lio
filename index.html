@@ -18,17 +18,17 @@
             theme: {
                 extend: {
                     colors: {
-                        /* Cor principal neon: verde ciberpunk */
+                        
                         neon: '#00ff9d',
-                        /* Cor secundária: azul elétrico */
+                        
                         electric: '#3b82f6',
                     },
                     fontFamily: {
-                        /* Fonte display para títulos grandes */
+                        
                         display: ['Syne', 'sans-serif'],
-                        /* Fonte mono para badges de código */
+                        
                         mono: ['JetBrains Mono', 'monospace'],
-                        /* Fonte padrão do corpo */
+                        
                         sans: ['Inter', 'sans-serif'],
                     }
                 }
@@ -37,17 +37,12 @@
     </script>
 
     <style>
-        /* =============================================
-           RESET E BASE
-        ============================================= */
+       
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
 
-        /* =============================================
-           FUNDO FUTURISTA: GRID ANIMADO
-           Cria um padrão de grade infinita no background do hero
-        ============================================= */
+        
         .hero-grid {
             background-image:
                 linear-gradient(rgba(0,255,157,0.04) 1px, transparent 1px),
@@ -56,60 +51,45 @@
             animation: gridPulse 8s ease-in-out infinite;
         }
 
-        /* O grid pulsa levemente para dar sensação de vida */
+        
         @keyframes gridPulse {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
 
-        /* =============================================
-           ANIMAÇÃO DA FOTO: ANEL ROTACIONANDO
-           Anel pontilhado que gira lentamente ao redor da foto
-        ============================================= */
+        
         @keyframes spinSlow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         .spin-slow { animation: spinSlow 12s linear infinite; }
 
-        /* Anel secundário girando no sentido contrário para efeito duplo */
+        
         @keyframes spinReverse {
             from { transform: rotate(360deg); }
             to { transform: rotate(0deg); }
         }
         .spin-reverse { animation: spinReverse 18s linear infinite; }
 
-        /* =============================================
-           EFEITO GLOW NO TEXTO DO NOME
-           Pulsa o brilho para dar sensação neon
-        ============================================= */
+        
         @keyframes textGlow {
             0%, 100% { text-shadow: 0 0 20px rgba(0,255,157,0.4), 0 0 40px rgba(0,255,157,0.2); }
             50% { text-shadow: 0 0 40px rgba(0,255,157,0.7), 0 0 80px rgba(0,255,157,0.3); }
         }
         .glow-text { animation: textGlow 3s ease-in-out infinite; }
 
-        /* =============================================
-           CURSOR PERSONALIZADO
-           Substitui o cursor padrão por um crosshair verde neon
-        ============================================= */
+        
         * { cursor: crosshair; }
         a, button { cursor: crosshair; }
 
-        /* =============================================
-           EFEITO GLASSMORPHISM
-           Fundo translúcido com desfoque — estilo vidro fosco
-        ============================================= */
+        
         .glass {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
 
-        /* =============================================
-           PARTÍCULAS ANIMADAS NO HERO
-           Pontos flutuantes para dar profundidade ao fundo
-        ============================================= */
+        
         .particle {
             position: absolute;
             border-radius: 50%;
@@ -124,21 +104,18 @@
             100% { transform: translateY(-100px) scale(1); opacity: 0; }
         }
 
-        /* =============================================
-           CARDS DE PROJETO: HOVER LIFT + OVERLAY
-           Ao passar o mouse: elevação 3D + overlay com botões
-        ============================================= */
+       
         .project-card {
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
         .project-card:hover {
-            /* Elevação vertical suave */
+            
             transform: translateY(-10px);
-            /* Sombra neon aumentada */
+            
             box-shadow: 0 20px 60px rgba(0, 255, 157, 0.15), 0 0 0 1px rgba(0, 255, 157, 0.3);
         }
 
-        /* Overlay escuro que aparece com os botões de ação ao hover */
+       
         .project-overlay {
             position: absolute;
             inset: 0;
@@ -153,17 +130,14 @@
         }
         .project-card:hover .project-overlay { opacity: 1; }
 
-        /* =============================================
-           SKILL BADGES: ANIMAÇÃO DE ENTRADA
-           Cada badge tem um delay escalonado para entrar em sequência
-        ============================================= */
+        
         .skill-badge {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
         .skill-badge::before {
-            /* Brilho que passa pelo badge ao hover (shimmer effect) */
+            
             content: '';
             position: absolute;
             top: 0; left: -100%;
@@ -178,16 +152,14 @@
             border-color: rgba(0, 255, 157, 0.8) !important;
         }
 
-        /* =============================================
-           BOTÃO PRIMÁRIO: EFEITO RIPPLE + GLOW
-        ============================================= */
+
         .btn-primary {
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
         .btn-primary::after {
-            /* Círculo que expande a partir do clique (ripple) */
+            
             content: '';
             position: absolute;
             inset: 0;
@@ -203,18 +175,13 @@
             transform: translateY(-2px);
         }
 
-        /* =============================================
-           BARRA DE PROGRESSO DAS SKILLS
-           Animação da barra que preenche quando entra na tela
-        ============================================= */
+        
         .progress-bar {
             width: 0%;
             transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* =============================================
-           NAVBAR ATIVA: INDICA SEÇÃO ATUAL
-        ============================================= */
+        
         .nav-link { position: relative; }
         .nav-link::after {
             content: '';
@@ -228,10 +195,7 @@
         .nav-link:hover::after,
         .nav-link.active::after { width: 100%; }
 
-        /* =============================================
-           LINHA DECORATIVA ANIMADA
-           Linha horizontal que cresce da esquerda para direita
-        ============================================= */
+        
         .line-grow {
             animation: lineGrow 1s ease forwards;
         }
@@ -240,16 +204,10 @@
             to { width: 80px; }
         }
 
-        /* =============================================
-           CONTADORES DE ESTATÍSTICAS
-           Transição suave nos números do hero
-        ============================================= */
+        
         .stat-number { font-family: 'Syne', sans-serif; }
 
-        /* =============================================
-           SEÇÃO "SOBRE": CARD COM BORDA GRADIENTE
-           Borda animada com cor gradiente ao redor do card
-        ============================================= */
+        
         .gradient-border {
             position: relative;
             background: rgba(15, 23, 42, 0.8);
@@ -267,9 +225,7 @@
             mask-composite: exclude;
         }
 
-        /* =============================================
-           ÍCONES SOCIAIS: EFEITO FLUTUANTE AO HOVER
-        ============================================= */
+        
         .social-icon {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -277,10 +233,7 @@
             transform: translateY(-5px) scale(1.15);
         }
 
-        /* =============================================
-           SCROLLBAR PERSONALIZADA
-           Estiliza a barra de rolagem para combinar com o tema
-        ============================================= */
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #020817; }
         ::-webkit-scrollbar-thumb {
@@ -289,14 +242,10 @@
         }
         ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 157, 0.7); }
 
-        /* =============================================
-           SELEÇÃO DE TEXTO PERSONALIZADA
-        ============================================= */
+        
         ::selection { background: #00ff9d; color: #020817; }
 
-        /* =============================================
-           EFEITO HOVER NOS CARDS DA SEÇÃO SOBRE
-        ============================================= */
+        
         .about-card {
             transition: all 0.3s ease;
             position: relative;
@@ -313,10 +262,7 @@
         .about-card:hover::after { width: 100%; }
         .about-card:hover { transform: translateY(-4px); }
 
-        /* =============================================
-           TYPING EFFECT NO SUBTÍTULO DO HERO
-           Simula digitação com cursor piscante
-        ============================================= */
+        
         .typing-cursor::after {
             content: '|';
             animation: blink 0.8s step-end infinite;
@@ -328,9 +274,7 @@
             50% { opacity: 0; }
         }
 
-        /* =============================================
-           ANIMAÇÃO DO HERO: ENTRADA SUAVE
-        ============================================= */
+        
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -347,21 +291,15 @@
     </style>
 </head>
 
-<!-- =============================================
-     BODY: Fundo escuro profundo quase-preto
-============================================= -->
+
 <body class="bg-[#020817] text-gray-300 overflow-x-hidden">
 
-    <!-- =============================================
-         NAVBAR FIXA
-         - Glassmorphism para deixar translúcida
-         - Links com underline animado ao hover/ativo
-    ============================================= -->
+   
     <nav class="fixed w-full z-50 glass border-b border-white/5" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-18 py-4">
 
-                <!-- Logo: nome com ponto verde -->
+                
                 <div class="flex-shrink-0 cursor-crosshair" onclick="scrollToSection('home')">
                     <h1 class="text-xl font-display font-bold text-white tracking-tight cursor-pointer select-none">
                         Luiz<span class="text-neon" style="text-shadow: 0 0 15px rgba(0,255,157,0.5)">.dev</span>
@@ -376,7 +314,7 @@
                     <button onclick="scrollToSection('contato')" class="nav-link text-gray-400 hover:text-white transition-colors text-sm font-medium tracking-wide" data-section="contato">Contato</button>
                 </div>
 
-                <!-- Botão CTA no nav (desktop) -->
+                
                 <div class="hidden md:block">
                     <a href="https://github.com/luizhrx" target="_blank"
                        class="flex items-center gap-2 px-4 py-2 rounded border border-neon/30 text-neon text-sm font-mono hover:bg-neon/10 transition-all hover:border-neon/70">
@@ -385,14 +323,14 @@
                     </a>
                 </div>
 
-                <!-- Botão hamburguer mobile -->
+                
                 <button onclick="toggleMenu()" class="md:hidden text-gray-400 hover:text-white transition-colors p-2">
                     <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Menu mobile: dropdown com animação -->
+        
         <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/5">
             <div class="px-4 py-4 space-y-1">
                 <button onclick="scrollToSection('home')" class="block w-full text-left text-gray-300 hover:text-neon px-3 py-3 text-sm font-medium transition-colors border-b border-white/5">Início</button>
@@ -403,70 +341,65 @@
         </div>
     </nav>
 
-    <!-- =============================================
-         HERO SECTION
-         - Background: grade futurista + gradientes + partículas
-         - Layout: texto à esquerda, foto à direita
-    ============================================= -->
+    
     <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
 
-        <!-- CAMADA 1: Grade futurista de fundo -->
+        
         <div class="absolute inset-0 hero-grid pointer-events-none"></div>
 
-        <!-- CAMADA 2: Gradientes de glow (manchas de luz) -->
-        <!-- Glow verde superior esquerdo -->
+        
         <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-neon/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <!-- Glow azul centro direito -->
+        
         <div class="absolute top-1/4 right-0 w-[400px] h-[400px] bg-electric/5 rounded-full blur-[100px] pointer-events-none"></div>
-        <!-- Glow verde inferior -->
+        
         <div class="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-neon/3 rounded-full blur-[150px] pointer-events-none"></div>
 
-        <!-- CAMADA 3: Partículas flutuantes geradas via JS (ao final do arquivo) -->
+        
         <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
-        <!-- CONTEÚDO PRINCIPAL DO HERO -->
+        
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
             <div class="flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-20">
 
-                <!-- COLUNA ESQUERDA: Texto + CTAs -->
+                
                 <div class="flex-1 text-center lg:text-left space-y-7">
 
-                    <!-- Badge de status/categoria com animação de entrada -->
+                    
                     <div class="hero-element inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon/25 bg-neon/5 text-neon text-xs font-mono tracking-widest uppercase">
                         <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
                         Ciência da Computação 
                     </div>
 
-                    <!-- Título principal com fonte display grande -->
+                    
                     <div class="hero-element">
                         <p class="text-gray-400 text-lg font-light mb-2 tracking-wide">Olá, eu sou</p>
                         <h1 class="text-5xl sm:text-6xl md:text-7xl font-display font-bold text-white leading-none tracking-tight">
                             Luiz
-                            <!-- Nome em gradiente neon com glow animado -->
+                            
                             <span class="block text-transparent bg-clip-text bg-gradient-to-r from-neon via-emerald-300 to-neon glow-text" style="background-size: 200%; animation: textGlow 3s ease-in-out infinite, gradientShift 4s ease infinite;">
                                 Henrique
                             </span>
                         </h1>
                     </div>
 
-                    <!-- Subtítulo com efeito de digitação -->
+                    
                     <p class="hero-element text-gray-400 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed font-light">
                         Transformando lógica em soluções reais. <br>
                         <span class="text-gray-300">Explorando o universo do</span>
-                        <!-- Texto com destaque neon -->
+                        
                         <span class="text-neon font-mono"> Backend</span> &
                         <span class="text-electric font-mono"> Inteligência Artificial.</span>
                     </p>
 
-                    <!-- Botões de ação -->
+                    
                     <div class="hero-element flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <!-- Botão primário com efeito glow -->
+                        
                         <button onclick="scrollToSection('projetos')"
                                 class="btn-primary relative px-8 py-3.5 bg-neon text-[#020817] font-bold font-display text-sm tracking-wider rounded hover:scale-105 transition-transform shadow-[0_0_30px_rgba(0,255,157,0.3)] z-10">
                             Ver Projetos
                             <span class="ml-2">→</span>
                         </button>
-                        <!-- Botão secundário: contorno -->
+                        
                         <button onclick="scrollToSection('contato')"
                                 class="px-8 py-3.5 border border-white/20 text-white font-medium text-sm rounded hover:border-neon/50 hover:text-neon hover:bg-neon/5 transition-all">
                             Falar Comigo
@@ -490,12 +423,12 @@
                     </div>
                 </div>
 
-                <!-- COLUNA DIREITA: Foto com efeitos -->
+                
                 <div class="flex-1 flex justify-center items-center">
-                    <!-- Container da foto com múltiplos anéis decorativos -->
+                   
                     <div class="relative w-72 h-72 md:w-80 md:h-80">
 
-                        <!-- Anel externo: glow pulsante -->
+                        
                         <div class="absolute -inset-4 rounded-full"
                              style="background: conic-gradient(from 0deg, transparent 50%, rgba(0,255,157,0.4) 100%); animation: spinSlow 4s linear infinite; filter: blur(8px);"></div>
 
@@ -513,14 +446,14 @@
                             <img src="fotoDeLuiz.png" alt="Luiz Henrique" class="-mt-12"
                                  class="w-full h-full object-cover"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <!-- Fallback se a foto não carregar -->
+                        
                             <div class="hidden w-full h-full items-center justify-center flex-col gap-2 text-gray-600">
                                 <i data-lucide="user" class="w-16 h-16"></i>
                                 <span class="text-xs font-mono text-neon/50">luizhrx.jpg</span>
                             </div>
                         </div>
 
-                        <!-- Pontos decorativos nos cantos (ornamentos) -->
+                        
                         <div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-neon" style="box-shadow: 0 0 10px rgba(0,255,157,0.8);"></div>
                         <div class="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-electric" style="box-shadow: 0 0 8px rgba(59,130,246,0.8);"></div>
                         <div class="absolute top-1/2 -right-3 w-1.5 h-1.5 rounded-full bg-neon/60"></div>
@@ -528,7 +461,7 @@
                 </div>
             </div>
 
-            <!-- Indicador de scroll animado (bounce) -->
+            
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce text-gray-600">
                 <span class="text-xs font-mono tracking-widest uppercase">scroll</span>
                 <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -543,23 +476,23 @@
          - Habilidades técnicas com barras de progresso animadas
     ============================================= -->
     <section id="sobre" class="py-24 relative overflow-hidden" style="background: #050d1a;">
-        <!-- Gradiente de transição do hero -->
+        
         <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-neon/30 to-transparent"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- Título da seção -->
             <div class="text-center mb-16" data-aos="fade-up">
-                <!-- Label decorativo acima do título -->
+                
                 <span class="text-xs font-mono text-neon/60 tracking-widest uppercase">// sobre_mim.md</span>
                 <h2 class="text-4xl md:text-5xl font-display font-bold text-white mt-3 mb-4">
                     Sobre <span class="text-neon">Mim</span>
                 </h2>
-                <!-- Linha decorativa centralizada -->
+                
                 <div class="w-0 h-0.5 bg-gradient-to-r from-neon to-electric mx-auto rounded-full line-grow" id="about-line"></div>
             </div>
 
-            <!-- Grid de conteúdo: texto + cards -->
+            
             <div class="grid lg:grid-cols-2 gap-16 items-start mb-20">
 
                 <!-- COLUNA ESQUERDA: Texto biográfico -->
@@ -593,7 +526,7 @@
                     </div>
                 </div>
 
-                <!-- COLUNA DIREITA: Cards de área de atuação -->
+                
                 <div class="grid grid-cols-2 gap-4" data-aos="fade-left" data-aos-delay="200">
                     <!-- Card Backend -->
                     <div class="about-card gradient-border p-6 rounded-xl cursor-default">
@@ -639,7 +572,7 @@
                     <div class="flex-1 h-px bg-white/5"></div>
                 </div>
 
-                <!-- Grid de barras de progresso (habilidades com nível) -->
+                
                 <div class="grid md:grid-cols-2 gap-6 mb-10" id="skills-bars">
                     <!-- Cada item: nome + nível em % + barra animada -->
                     <!-- Java -->
@@ -1174,35 +1107,32 @@
                 const current = texts[textIndex];
 
                 if (!isDeleting) {
-                    // Adicionando caracteres
+                    
                     typingEl.textContent = current.slice(0, charIndex++);
                     if (charIndex > current.length) {
                         isDeleting = true;
-                        setTimeout(type, 1500); // Pausa antes de apagar
+                        setTimeout(type, 1500); 
                         return;
                     }
                 } else {
-                    // Apagando caracteres
+                    
                     typingEl.textContent = current.slice(0, charIndex--);
                     if (charIndex < 0) {
                         isDeleting = false;
                         textIndex = (textIndex + 1) % texts.length;
-                        setTimeout(type, 300); // Pausa antes do próximo texto
+                        setTimeout(type, 300); 
                         return;
                     }
                 }
 
-                // Velocidade de digitação (menor = mais rápido)
+                
                 setTimeout(type, isDeleting ? 60 : 100);
             }
 
-            setTimeout(type, 1000); // Começa após 1 segundo
+            setTimeout(type, 1000); 
         }
 
-        // ============================================
-        // 9. GRADIENTE ANIMADO NO NOME (Hero)
-        //    Adiciona keyframe dinamicamente para o gradiente em movimento
-        // ============================================
+        
         const style = document.createElement('style');
         style.textContent = `
             @keyframes gradientShift {
@@ -1213,10 +1143,7 @@
         `;
         document.head.appendChild(style);
 
-        // ============================================
-        // 10. NAVBAR BLUR AUMENTADO AO ROLAR
-        //     Aumenta o efeito de vidro na navbar conforme o scroll
-        // ============================================
+        
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
